@@ -12,6 +12,8 @@
         <td>
             <a href="{{ route('class.edit', $class->id) }}">Edit</a>
             <a href="{{ route('class.delete', $class->id) }}">Delete</a>
+            <a href="{{ route('student.add', $class->id) }}">Add Student</a>
+
         </td>
     </tr>
     @endforeach

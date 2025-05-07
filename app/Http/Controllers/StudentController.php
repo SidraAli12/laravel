@@ -4,23 +4,57 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\ClassName;
+use App\Models\StudentClass;
 use Illuminate\Support\Facades\Hash;
 
 class StudentController extends Controller
- {
-public function create()
 {
-    return view('student-form');  // for loading a form data 
-}
+    public function showForm($classId)
+    {
+        return view('student.form', compact('classId'));
+    }
+    public function index()
+    {
+        $students = Student::all(); // Get all students
+        return view('student.index', compact('students')); // Pass students data to the view
+    }
+    public function saveStudent(Request $request)
+    {
 
-public function store(Request $request)
-{
-    Student::create([ // through student model its gonna save student info
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => bcrypt($request->password),
-    ]);
-     // redirect the form with succcses msg 
-    return redirect()->back()->with('success', 'Student saved!');
+
+        $student = new Student;
+        $student->class_id = $request->class_id;
+        $student->name = $request->name;
+        $student->email = $request->email;
+        $student->password = bcrypt($request->password); // Secure password
+        $student->save();
+
+        return redirect()->route('class.index');
+
+        return "Student registered successfully!";
+    }
+    public function edit($id)
+    {
+        $student = Student::with('class')->findOrFail($id);
+        $classes = StudentClass::all(); // Get all classes for dropdown
+        return view('student.edit', compact('student', 'classes'));
+    }
+    public function update(Request $request, $id)
+    {
+        $student = Student::find($id);
+        $student->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'class_id' => $request->class_id
+        ]);
+        return redirect('student.index')->with('success Student updated successfully!');
+    }
+    public function destroy($id)
+    {
+        $student = Student::find($id);
+        $student->delete();
+        return redirect()->route('student.index')->with('success', 'Student deleted successfully!');
+    }
 }
- }

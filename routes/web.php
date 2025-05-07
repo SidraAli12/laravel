@@ -7,6 +7,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\CollegeClassController;
+
 
 
 
@@ -36,7 +38,7 @@ Route::post('/save-task', [TaskController::class, 'saveTask']);
 
 
 
-Route::get('/student-form', [StudentController::class, 'create']);
+Route::get('/student-form/{classid}', [StudentController::class, 'showForm'])->name('student.add');;
 Route::post('/student-form', [StudentController::class, 'store'])->name('student.store');
 
 
@@ -60,3 +62,26 @@ Route::get('/class/list', [ClassController::class, 'index'])->name('class.index'
 Route::get('/class/edit/{id}', [ClassController::class, 'edit'])->name('class.edit');
 Route::post('/class/update/{id}', [ClassController::class, 'update'])->name('class.update');
 Route::get('/class/delete/{id}', [ClassController::class, 'destroy'])->name('class.delete');
+
+
+
+//another task
+Route::get('students', [StudentController::class, 'index'])->name('students.index'); // List all students
+// Route to show the form to create a new student
+Route::get('/student/create', [StudentController::class, 'showForm'])->name('student.create');
+// Route to save a new student
+Route::post('/student/save', [StudentController::class, 'saveStudent'])->name('student.save');
+// Route to show the edit form for a student
+Route::get('/student/edit/{id}', [StudentController::class, 'edit'])->name('student.edit');
+// Route to update student details
+Route::put('/student/update/{id}', [StudentController::class, 'update'])->name('student.update');
+// Route to delete a student
+Route::delete('/student/delete/{id}', [StudentController::class, 'destroy'])->name('student.delete');
+
+
+function p($data)
+{
+    echo "<pre>";
+    print_r($data);
+    die();
+}
