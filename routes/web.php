@@ -1,15 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\userController;
+//use App\Http\Controllers\userController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\ClassController;
-use App\Http\Controllers\CollegeClassController;
-
-
+use App\Http\Controllers\loginController;
 
 
 Route::get('/', function () {
@@ -28,13 +26,13 @@ Route::get('/post/{id}/comment/{commentId}', function ($id, $commentId) {
 });
 
 
-Route::get('/user/{name}', [UserController::class, 'greet']);
+// Route::get('/user/{name}', [UserController::class, 'greet']);
 
-//task 
+// //task 
 
-Route::get('/show-task-form', [TaskController::class, 'showTaskForm']);
+// Route::get('/show-task-form', [TaskController::class, 'showTaskForm']);
 
-Route::post('/save-task', [TaskController::class, 'saveTask']);
+// Route::post('/save-task', [TaskController::class, 'saveTask']);
 
 
 
@@ -85,3 +83,27 @@ function p($data)
     print_r($data);
     die();
 }
+
+
+
+
+
+//login /signup
+
+Route::get('/user/add', [loginController::class, 'showUserLogin']);
+// function p($data)
+// {
+//     echo "<pre>";
+//     print_r($data);
+//     die();
+// }
+Route::post('/user/save', [loginController::class, 'store']) ;
+// Route::get('/user/login', [loginController::class, 'login']);
+// Route::get('/user/login', function () {
+//     return view('login');
+// });
+
+Route::get('/user/login', [loginController::class, 'showlogin']);
+Route::post('/user/auth', [loginController::class, 'login']);
+
+Route::get('/user/account', [loginController::class, 'account'])->name('account');
