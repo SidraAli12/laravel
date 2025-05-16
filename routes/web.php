@@ -8,6 +8,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\loginController;
+use Illuminate\Support\Facades\Auth;
+
 
 
 Route::get('/', function () {
@@ -83,27 +85,22 @@ function p($data)
     print_r($data);
     die();
 }
-
-
-
-
-
-//login /signup
-
 Route::get('/user/add', [loginController::class, 'showUserLogin']);
-// function p($data)
-// {
-//     echo "<pre>";
-//     print_r($data);
-//     die();
-// }
-Route::post('/user/save', [loginController::class, 'store']) ;
-// Route::get('/user/login', [loginController::class, 'login']);
-// Route::get('/user/login', function () {
-//     return view('login');
-// });
+Route::post('/user/save', [loginController::class, 'store']);
 
-Route::get('/user/login', [loginController::class, 'showlogin']);
+// Show login form
+Route::get('/user/login', [loginController::class, 'showlogin'])->name('login');
+
+// Login user
 Route::post('/user/auth', [loginController::class, 'login']);
 
-Route::get('/user/account', [loginController::class, 'account'])->name('account');
+// Protected user account
+Route::get('/user/account', [loginController::class, 'account'])
+    ->middleware('auth')   // ✅ Protected by auth
+    ->name('account');
+
+// Logout user
+Route::post('/logout', function () {
+    Auth::logout();
+    return redirect()->route('login');  // ✅ Safe redirect to named route
+})->name('logout');

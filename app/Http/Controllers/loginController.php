@@ -26,7 +26,6 @@ class loginController extends Controller
 
     
 
-
    
     public function store(Request $request)
     {
@@ -50,8 +49,17 @@ class loginController extends Controller
             return back()->withErrors(['message' => 'Invalid credentials']);
         }
     }
-     public function account()
- {
-     return view('user.account');
- }
+
+    //middleware
+
+    public function account()
+{
+    if (!Auth::check()) {
+        return redirect('/user/login'); // user is not logged in
+    }
+
+    return view('user.account');
+}
+
+
 }
