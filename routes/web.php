@@ -9,6 +9,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\loginController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\taskkController;
 
 
 
@@ -96,11 +97,24 @@ Route::post('/user/auth', [loginController::class, 'login']);
 
 // Protected user account
 Route::get('/user/account', [loginController::class, 'account'])
-    ->middleware('auth')   // ✅ Protected by auth
+    ->middleware('auth')   
     ->name('account');
 
 // Logout user
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect()->route('login');  // ✅ Safe redirect to named route
+    return redirect()->route('login');  
 })->name('logout');
+
+
+// taskk
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/tasks', [taskkController::class, 'index'])->name('taskk.index');
+    Route::get('/tasks/create', [taskkController::class, 'create'])->name('taskk.create');
+    Route::post('/tasks', [taskkController::class, 'store'])->name('taskk.store');
+    Route::get('/tasks/{id}/edit', [taskkController::class, 'edit'])->name('taskk.edit');
+    Route::put('/tasks/{id}', [taskkController::class, 'update'])->name('taskk.update');
+    Route::delete('/tasks/{id}', [taskkController::class, 'destroy'])->name('taskk.destroy');
+});

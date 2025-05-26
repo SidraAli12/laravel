@@ -44,7 +44,9 @@ class loginController extends Controller
         $credentials = $request->only('email', 'password');
     
         if (Auth::attempt($credentials)) {
-            return redirect()->route('account') ;
+            //return redirect()->route('account') ;
+            return redirect()->route('taskk.index');  // task list view
+
         } else {
             return back()->withErrors(['message' => 'Invalid credentials']);
         }
