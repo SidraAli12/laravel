@@ -9,13 +9,13 @@ class StudentssController extends Controller
     // Save (insert)
     public function store(Request $request)
     {
-        $data = $request->only(['name', 'email', 'course']); // only()
+        $data = $request->only(['name', 'email', 'course']);
 
         $student = new Studentss();
         $student->name = $data['name'];
         $student->email = $data['email'];
         $student->course = $data['course'];
-        $student->save(); // save()
+        $student->save();
 
         return redirect()->back()->with('success', 'Student saved!');
     }
@@ -23,20 +23,28 @@ class StudentssController extends Controller
     // Update
     public function update(Request $request, $id)
     {
-        $student = Studentss::find($id);
+        $student = Studentss::findOrFail($id);
 
         $student->update([
             'name' => $request->name,
+            'email' => $request->email,
             'course' => $request->course,
-        ]); // update()
+        ]);
 
-        return redirect()->back()->with('success', 'Student updated!');
+        return redirect('/studentss')->with('success', 'Student updated!');
     }
 
     // Show with where + get
     public function index()
     {
-        $students = Studentss::where('course', 'Laravel')->get(); // where + get
+        $students = Studentss::where('course', 'Laravel')->get();
         return view('studentss.index', compact('students'));
+    }
+
+    // Show edit form
+    public function edit($id)
+    {
+        $student = Studentss::findOrFail($id);
+        return view('studentss.edit', compact('student'));
     }
 }
