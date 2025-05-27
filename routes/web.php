@@ -10,6 +10,8 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\loginController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\taskkController;
+use App\Http\Controllers\StudentssController;
+
 
 
 
@@ -118,3 +120,13 @@ Route::middleware('auth')->group(function () {
     Route::put('/tasks/{id}', [taskkController::class, 'update'])->name('taskk.update');
     Route::delete('/tasks/{id}', [taskkController::class, 'destroy'])->name('taskk.destroy');
 });
+
+
+//eloquent
+
+
+Route::get('/studentss', [StudentssController::class, 'index']);
+Route::post('/studentss', [StudentssController::class, 'store']);
+
+Route::get('/studentss/{id}/edit', [StudentssController::class, 'edit'])->name('studentss.edit');
+Route::put('/studentss/{id}', [StudentssController::class, 'update'])->name('studentss.update');

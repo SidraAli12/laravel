@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\taskk; 
+use App\Models\Taskk; 
 use Illuminate\Support\Facades\Auth; 
 
 class taskkController extends Controller
 {
     public function index() {
-        $tasks = taskk::where('user_id', Auth::id())->get();
+        $tasks = Taskk::where('user_id', Auth::id())->get();
         return view('taskk.index', compact('tasks'));
     }
 
@@ -18,7 +18,7 @@ class taskkController extends Controller
     }
 
     public function store(Request $request) {
-        $task = new taskk;
+        $task = new Taskk;
         $task->user_id = Auth::id();
         $task->title = $request->title;
         $task->title = $request->title;
@@ -29,12 +29,12 @@ class taskkController extends Controller
     }
 
     public function edit($id) {
-        $task = taskk::findOrFail($id);
+        $task = Taskk::findOrFail($id);
         return view('taskk.edit', compact('task'));
     }
 
     public function update(Request $request, $id) {
-        $task = taskk::findOrFail($id);
+        $task = Taskk::findOrFail($id);
         $task->title = $request->title;
         $task->description = $request->description;
         $task->is_completed = $request->has('is_completed');
@@ -44,7 +44,7 @@ class taskkController extends Controller
     }
 
     public function destroy($id) {
-        $task = taskk::findOrFail($id);
+        $task = Taskk::findOrFail($id);
         $task->delete();
         return redirect()->route('taskk.index');
     }
