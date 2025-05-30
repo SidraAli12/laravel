@@ -130,3 +130,7 @@ Route::post('/studentss', [StudentssController::class, 'store']);
 
 Route::get('/studentss/{id}/edit', [StudentssController::class, 'edit'])->name('studentss.edit');
 Route::put('/studentss/{id}', [StudentssController::class, 'update'])->name('studentss.update');
+
+Route::get('/home', function () {
+    return view('home');
+});

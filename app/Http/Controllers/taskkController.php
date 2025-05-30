@@ -17,16 +17,35 @@ class taskkController extends Controller
         return view('taskk.create');
     }
 
-    public function store(Request $request) {
-        $task = new Taskk;
-        $task->user_id = Auth::id();
-        $task->title = $request->title;
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->save();
+    // public function store(Request $request) {
+    //     $task = new Taskk;
+    //     $task->user_id = Auth::id();
+    //     $task->title = $request->title;
+    //     $task->title = $request->title;
+    //     $task->description = $request->description;
+    //     $task->save();
 
-        return redirect()->route('taskk.index');
+    //     return redirect()->route('taskk.index');
+    // }
+    public function store(Request $request) {
+    $request->validate([
+        'titles' => 'required|array',
+        'titles.*' => 'required|string|max:255',
+    ]);
+
+    foreach ($request->titles as $title) {
+        if (trim($title) !== '') {
+            Taskk::create([
+                'user_id' => Auth::id(),
+                'title' => $title,
+                'description' => $request->description ?? '',
+                'is_completed' => false,
+            ]);
+        }
     }
+
+    return redirect()->route('taskk.index')->with('success', 'Tasks created successfully!');
+}
 
     public function edit($id) {
         $task = Taskk::findOrFail($id);

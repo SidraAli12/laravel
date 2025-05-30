@@ -1,20 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Sign Up</title>
-  <link rel="stylesheet" href="signup.css">
-</head>
-<body>
-  <div class="signup-container">
-    <h2>Create Account</h2>
-    <form action="{{ url('/user/save') }}" method="POST">
-  @csrf
-  <input type="text" name="name" placeholder="Full Name" required>
-  <input type="email" name="email" placeholder="Email Address" required>
-  <input type="password" name="password" placeholder="Password" required>
-  <button type="submit">Sign Up</button>
-</form>
+@extends('layouts.app')
 
-  </div>
-</body>
-</html>
+@section('title', 'Sign Up')
+
+@section('content')
+    <div class="w-50 mx-auto p-4 bg-white shadow rounded">
+        <h2 class="mb-4 text-center">Create Account</h2>
+
+        <form action="{{ url('/user/save') }}" method="POST">
+            @csrf
+
+            <div class="mb-3">
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+            </div>
+
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Sign Up</button>
+        </form>
+    </div>
+@endsection

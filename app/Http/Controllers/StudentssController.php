@@ -9,7 +9,7 @@ class StudentssController extends Controller
     // Save (insert)
     public function store(Request $request)
     {
-        $data = $request->only(['name', 'email', 'course']);
+        $data = $request->only(['name', 'email', 'course']); //just use for a specific data
 
         $student = new Studentss();
         $student->name = $data['name'];
